@@ -1,0 +1,449 @@
+/* ==========================================================================
+   1. GITHUB MONOCHROME THEME VARIABLES
+   ========================================================================== */
+:root {
+    /* Light Mode (GitHub Light) */
+    --bg-color: #ffffff;
+    --card-bg: #f6f8fa;
+    --text-primary: #1f2328;
+    --text-secondary: #636c76;
+    --border-color: #d0d7de;
+    --input-bg: #ffffff;
+    --btn-primary-bg: #1f2328;
+    --btn-primary-text: #ffffff;
+    --badge-bg: #eff1f3;
+    --badge-text: #1f2328;
+    --card-shadow: 0 1px 3px rgba(31, 35, 40, 0.12);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode (GitHub Dark Dimmed / Canvas) */
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8d96a0;
+    --border-color: #30363d;
+    --input-bg: #0d1117;
+    --btn-primary-bg: #f0f6fc;
+    --btn-primary-text: #0d1117;
+    --badge-bg: #21262d;
+    --badge-text: #f0f6fc;
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   2. GLOBAL TYPOGRAPHY & LAYOUT
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.header-content p {
+    margin: 4px 0 0 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   3. BUTTONS & INPUT CONTROLS
+   ========================================================================== */
+.theme-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+    background-color: var(--badge-bg);
+    border-color: var(--text-secondary);
+}
+
+#data-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    justify-content: flex-end;
+}
+
+.secondary-btn {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background-color: var(--badge-bg);
+}
+
+input, select {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(140, 149, 159, 0.2);
+}
+
+/* ==========================================================================
+   4. DASHBOARD STATS & ANALYTICS CARDS
+   ========================================================================== */
+#summary-container,
+.analytics-grid {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    flex: 1;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.stat-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   5. PROJECT CARDS & GRID
+   ========================================================================== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+#filter-container {
+    display: flex;
+    gap: 10px;
+}
+
+#project-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.project-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.2s ease;
+}
+
+.project-card:hover {
+    border-color: var(--text-secondary);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Badges & Tech Tags */
+.deadline-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--badge-bg);
+    color: var(--badge-text);
+}
+
+.tech-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 16px 0;
+}
+
+.tech-tag {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
+/* Monochrome Progress Bar */
+.progress-section {
+    margin: 16px 0;
+}
+
+.progress-section span {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--text-primary) !important; /* Force sleek monochrome progress */
+    border-radius: 6px;
+    transition: width 0.4s ease;
+}
+
+/* Card Action Buttons */
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.edit-btn, .delete-btn {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+    background-color: var(--badge-bg);
+}
+
+.delete-btn:hover {
+    background-color: #8b0000;
+    color: #ffffff;
+    border-color: #8b0000;
+}
+
+/* ==========================================================================
+   6. EMPTY STATE UI (MONOCHROME 3D EFFECT)
+   ========================================================================== */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--card-bg);
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.empty-state-3d-text {
+    perspective: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.iso-text {
+    font-size: 52px;
+    font-weight: 900;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    transform: rotateX(40deg) rotateZ(-20deg) skewX(10deg);
+    color: var(--text-primary);
+    text-shadow: 
+        -1px 1px 0px var(--border-color),
+        -2px 2px 0px var(--border-color),
+        -3px 3px 0px var(--text-secondary),
+        -4px 4px 0px var(--text-secondary),
+        -8px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.empty-state h3 {
+    margin: 12px 0 6px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   7. MODALS & FORMS
+   ========================================================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: var(--card-shadow);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+    margin-top: 6px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.save-btn {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.cancel-btn {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.form-error-msg {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}

@@ -3,10 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DevHub</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h2> find me here </h2>
-    <script src="js/main.js"></script>
+
+    <header>
+    <div class="header-content">
+        <div>
+            <h1>DevHub</h1>
+            <p>My Development Dashboard</p>
+        </div>
+        <button id="theme-toggle" class="theme-btn">🌙 Dark Mode</button>
+    </div>
+</header>
+
+    <main>
+        <div id="data-actions">
+            <button id="export-btn" class="secondary-btn">Export Data (JSON)</button>
+            <button id="import-btn" class="secondary-btn">Import Data</button>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+        </div>
+
+        <section>
+            <div id="summary-container">
+                <div class="stat-card">
+                    <h3>Total</h3>
+                    <p id="total-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>In Progress</h3>
+                    <p id="in-progress-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed</h3>
+                    <p id="completed-count">0</p>
+                </div>
+            </div>
+
+            <div id="analytics-container" class="analytics-grid">
+                <div class="stat-card">
+                    <h3>Overall Progress Rate</h3>
+                    <p id="completion-rate">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Avg. Progress / Project</h3>
+                    <p id="avg-progress">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Overdue Projects</h3>
+                    <p id="overdue-count">0</p>
+                </div>
+            </div>
+
+            <form id="add-project-form">
+                <div id="add-form-error" class="form-error-msg" style="display: none;"></div>
+                <input type="datetime-local" id="project-date" placeholder="Date to Add" required>
+                <input type="text" id="project-name" placeholder="Project Name" required>
+                <input type="text" id="project-tech" placeholder="Technology" required>
+                <select id="project-status">
+                    <option value="Planned">Planned</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+                <input type="number" id="project-progress" placeholder="Progress %" min="0" max="100" required>
+                <label for="project-deadline">Target Deadline</label>
+                <input type="date" id="project-deadline" required>
+                <button type="submit">Add Project</button>
+            </form>
+
+            <div class="section-header">
+                <h2>My Projects</h2>
+                <div id="filter-container">
+                    <input type="text" id="search-input" placeholder="Search projects by name...">
+                    <select id="status-filter">
+                        <option value="All">All Statuses</option>
+                        <option value="Planned">Planned</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <select id="sort-select">
+                        <option value="newest">Newest First</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="progress-desc">Progress (High to Low)</option>
+                        <option value="progress-asc">Progress (Low to High)</option>
+                    </select>
+                </div>
+            </div>  
+
+            <div id="project-container"></div>
+        </section>
+
+        <!-- Edit Modal inside main -->
+        <div id="edit-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Edit Project</h2>
+                <form id="edit-project-form">
+                    <input type="hidden" id="edit-project-id">
+                    
+                    <label for="edit-project-name">Project Name</label>
+                    <input type="text" id="edit-project-name" required>
+
+                    <label for="edit-project-tech">Technology</label>
+                    <input type="text" id="edit-project-tech" required>
+
+                    <label for="edit-project-status">Status</label>
+                    <select id="edit-project-status">
+                        <option value="Planned">Planned</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+
+                    <label for="edit-project-progress">Progress %</label>
+                    <input type="number" id="edit-project-progress" min="0" max="100" required>
+
+                    <label for="edit-project-deadline">Target Deadline</label>
+                    <input type="date" id="edit-project-deadline" required>
+
+                    <div class="modal-actions">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" id="close-modal-btn" class="cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="./js/data/projects.js"></script>
+    <script src="./js/main.js"></script>
+
 </body>
 </html>
