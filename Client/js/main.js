@@ -130,6 +130,7 @@ addProjectForm.addEventListener('submit', function(event) {
     saveProjects();
     renderProjects();
     addProjectForm.reset();
+    showToast(`Project "${newProject.name}" created successfully!`, 'success');
 });
 
 // Helper function to render validation messages
@@ -138,19 +139,66 @@ function showFormError(message) {
     addFormError.style.display = 'block';
 }
 
-function deleteProject(id) {
-    const index = projects.findIndex(function(project) {
-        return project.id === id;
-    });
+// State tracking for deletion
+let projectToDeleteId = null;
 
-    if (index !== -1) {
-        projects.splice(index, 1);
-        saveProjects();
-        renderProjects();
+const deleteModal = document.querySelector('#delete-modal');
+const deleteModalMsg = document.querySelector('#delete-modal-msg');
+const confirmDeleteBtn = document.querySelector('#confirm-delete-btn');
+const cancelDeleteBtn = document.querySelector('#cancel-delete-btn');
+
+// Open delete modal
+function promptDeleteProject(id) {
+    const project = projects.find(p => p.id === id);
+    if (!project) return;
+
+    projectToDeleteId = id;
+    if (deleteModalMsg) {
+        deleteModalMsg.textContent = `Are you sure you want to delete "${project.name}"? This action cannot be undone.`;
+    }
+    if (deleteModal) {
+        deleteModal.style.display = 'flex';
     }
 }
 
+// Close delete modal
+function closeDeleteModal() {
+    projectToDeleteId = null;
+    if (deleteModal) {
+        deleteModal.style.display = 'none';
+    }
+}
+
+// Execute deletion on confirmation
+function executeDelete() {
+    if (projectToDeleteId === null) return;
+
+    const index = projects.findIndex(p => p.id === projectToDeleteId);
+    if (index !== -1) {
+        const deletedName = projects[index].name;
+        projects.splice(index, 1);
+        saveProjects();
+        renderProjects();
+        showToast(`Project "${deletedName}" deleted.`, 'error');
+    }
+
+    closeDeleteModal();
+}
+
+// Event Listeners for Delete Modal
+if (confirmDeleteBtn) confirmDeleteBtn.addEventListener('click', executeDelete);
+if (cancelDeleteBtn) cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+
+// Close on backdrop click
+window.addEventListener('click', function(e) {
+    if (e.target === deleteModal) {
+        closeDeleteModal();
+    }
+});
 // NEW REPLACEMENT VERSION
+
+
+
 function updateSummary() {
     const totalCount = projects.length;
     const inProgressCount = projects.filter(project => project.status === "In Progress").length;
@@ -217,27 +265,36 @@ function exportData() {
     downloadAnchor.setAttribute("download", "devhub_projects.json");
     downloadAnchor.click();
     downloadAnchor.remove();
+    showToast('Projects exported as JSON file.', 'info');
 }
 
 function importData(event) {
     const file = event.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
+
     reader.onload = function(e) {
         try {
             const importedProjects = JSON.parse(e.target.result);
+
             if (Array.isArray(importedProjects)) {
                 projects = importedProjects;
                 saveProjects();
                 renderProjects();
-                alert("Projects imported successfully!");
+                
+                // 1. SUCCESS TOAST (Replaces alert("Projects imported successfully!"))
+                showToast('Projects imported successfully!', 'success');
             } else {
-                alert("Invalid JSON format: Expected an array of projects.");
+                // 2. ERROR TOAST (Replaces alert("Invalid JSON format..."))
+                showToast('Invalid JSON format: Expected an array of projects.', 'error');
             }
         } catch (err) {
-            alert("Error parsing JSON file.");
+            // 3. ERROR TOAST (Replaces alert("Error parsing JSON file."))
+            showToast('Error parsing JSON file.', 'error');
         }
     };
+
     reader.readAsText(file);
     importFileInput.value = '';
 }
@@ -279,6 +336,7 @@ editForm.addEventListener('submit', function(e) {
         saveProjects();
         renderProjects();
         closeModal();
+        showToast(`Project "${project.name}" updated successfully!`, 'success');
     }
 });
 
@@ -356,7 +414,7 @@ projectContainer.addEventListener('click', function(e) {
         editProject(id);
     } else if (action === 'delete') {
         const id = Number(e.target.dataset.id);
-        deleteProject(id);
+        promptDeleteProject(id); // <--- Call promptDeleteProject here
     } else if (action === 'filter-tag') {
         const tag = e.target.dataset.tag;
         filterByTag(tag);
@@ -408,4 +466,44 @@ function calculateDashboardMetrics(projectsList = projects) {
         averageProgress: Math.round(metrics.totalProgress / totalProjects),
         overdueCount: metrics.overdueCount
     };
+}
+
+const toastContainer = document.querySelector('#toast-container');
+
+function showToast(message, type = 'info') {
+    if (!toastContainer) return;
+
+    // 1. Create Toast Element
+    const toast = document.createElement('div');
+    toast.classList.add('toast', `toast-${type}`);
+
+    // Set icons based on notification type
+    const icons = {
+        success: '✓',
+        error: '✕',
+        info: 'ℹ'
+    };
+
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type] || 'ℹ'}</span>
+        <span class="toast-message">${message}</span>
+    `;
+
+    // 2. Append to Container
+    toastContainer.appendChild(toast);
+
+    // 3. Trigger Slide-in Animation (Small delay ensures CSS transition triggers)
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+
+    // 4. Auto Dismiss after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        
+        // Remove element from DOM after transition finishes
+        toast.addEventListener('transitionend', () => {
+            toast.remove();
+        });
+    }, 3000);
 }
